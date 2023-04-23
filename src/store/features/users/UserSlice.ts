@@ -17,7 +17,7 @@ const UserSlice = createSlice({
     reducers:{
         getAllUsers:(state)=>{
             return state;
-        }
+        },
     }
 });
 

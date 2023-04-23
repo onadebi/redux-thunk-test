@@ -15,3 +15,4 @@ export type RootState = ReturnType<typeof RootReducer>;
 export default RootReducer;
 
 export const allPosts = (state: RootState) => state.posts;
+export const allUsers = (state: RootState)=> state.users;
