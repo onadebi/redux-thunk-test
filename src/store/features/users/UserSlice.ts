@@ -5,8 +5,8 @@ export type UsersType={
 }
 
 const initialState: UsersType[] = [
-    {id: '1', name:'Onadebi U.'},
-    {id: '2', name:'Maximillian K.'}
+    {id: '1', name:'Upchurch'},
+    {id: '2', name:'Dotan K.'}
 ]
 
 

@@ -21,7 +21,6 @@ const ReactionButtons: React.FC<IProps> = ({post}) => {
 
     const reactionButtons = emojiObject.map(([name, emojiValue], index)=>{
         const reactionType = name as ReactionsType;
-        // const reactionTypeCount = ReactionsTypeCount[reactionType];
         return(
         <button
         key={name}
