@@ -1,17 +1,19 @@
 import React, { FormEvent, useState } from "react";
-import { PostsType, initReactions, postAdded } from "./PostsSlice";
+import { PostsApiRespType, PostsType, addNewPost, initReactions } from "./PostsSlice";
 import {allUsers} from '../../RootReducer'
 import { useDispatch, useSelector } from "react-redux";
 import './posts.scss';
+import { AppDispatch } from "../../store";
 
 
 
 const AddPost = () => {
-  const initPost: PostsType = { id: "", content: "", title: "", userId: '', date: (new Date()).toISOString(), reactions: initReactions };
+  const initPost: PostsType = { id: "", body: "", title: "", userId: 0, date: (new Date()).toISOString(), reactions: initReactions };
   // const initUsers: UsersType = { id: "", name: ""};
   // const [userId, setUserId] = useState<string>('');
 
   const [post, setPost] = useState<PostsType>(initPost);
+  const [postState, setPostState] = useState<PostsApiRespType>('idle');
 
   const users = useSelector(allUsers);
 
@@ -19,7 +21,7 @@ const AddPost = () => {
     <option key={user.id} value={user.id}>{user.name}</option>
   ))
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   const handleChange = (evt: FormEvent<HTMLFormElement | HTMLInputElement| HTMLSelectElement>) => {
     const { name, value } = evt.currentTarget;
@@ -31,14 +33,20 @@ const AddPost = () => {
     });
   };
 
-  let isDisabled: boolean = post && post.title && post.content && post.userId ? false : true;
+  let isDisabled: boolean = post && post.title && post.body && post.userId ? false : true;
 
   const handleSubmit = (evt: FormEvent) => {
     evt.preventDefault();
-    console.log(JSON.stringify(post));
-    if (post && post.title && post.content && post.userId) {
-      dispatch(postAdded(post));
-      setPost(initPost);
+    if (!isDisabled) {
+      try {
+        setPostState('loading')
+        dispatch(addNewPost(post));
+        setPost(initPost);
+      } catch (error) {
+        
+      }finally{
+        setPostState('idle')
+      }
     } else {
       alert("Invalid article post details");
     }
@@ -66,11 +74,11 @@ const AddPost = () => {
             </select>
           </div>
           <div className='form-group'>
-            <label htmlFor="content" className="lblInput">Content</label>
+            <label htmlFor="body" className="lblInput">Content</label>
             <input
               type="text"
-              name="content"
-              value={post.content}
+              name="body"
+              value={post.body}
               className="txtInput"
               onChange={handleChange}
               onBlur={handleChange}

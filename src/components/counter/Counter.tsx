@@ -1,11 +1,10 @@
 import React from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import { RootState } from '../../store/RootReducer';
 import CounterSlice from '../../store/features/counter/Counter.slice';
+import { useAppDispatch, useAppSelector } from '../../store/store';
 
 const Counter = () => {
-    const count = useSelector((state: RootState)=> state.counter.count);
-    const dispatch = useDispatch();
+    const count = useAppSelector((state)=> state.counter.count);
+    const dispatch = useAppDispatch();
 
   return (
     <>
